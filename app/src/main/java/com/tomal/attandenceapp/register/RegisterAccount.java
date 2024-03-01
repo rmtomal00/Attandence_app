@@ -175,7 +175,7 @@ public class RegisterAccount extends AppCompatActivity {
                 JSONObject object;
                 try {
                     object = new JSONObject(response.body().string());
-                    photo = object.getString("filename");
+                    photo = object.getString("path");
                     //userRegister();
                     apiCall.userRegister(RegisterAccount.this, getString());
                 } catch (JSONException e) {
