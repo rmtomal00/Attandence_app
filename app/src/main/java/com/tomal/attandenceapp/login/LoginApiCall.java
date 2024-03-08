@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +49,9 @@ public class LoginApiCall extends ViewModel {
                 if (volleyError.networkResponse != null){
                     int code = volleyError.networkResponse.statusCode;
                     String message = volleyError.getMessage();
+                    System.out.println(message);
                     System.out.println("code : " + code);
-                    System.out.println("message : " + message);
+                    System.out.println("message : " + Arrays.toString(volleyError.networkResponse.data));
                     LoginResponse loginResponse = new LoginResponse(code,true,"Login failed due to email or password",null);
                     try {
                         loginModelMutableLiveData.setValue(new JSONObject(gson.toJson(loginResponse)));
@@ -57,7 +59,13 @@ public class LoginApiCall extends ViewModel {
                         throw new RuntimeException(e);
                     }
                 }else {
+                    LoginResponse loginResponse = new LoginResponse(402,true,"Login failed due to email or password",null);
                     Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    try {
+                        loginModelMutableLiveData.setValue(new JSONObject(gson.toJson(loginResponse)));
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }){
